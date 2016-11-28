@@ -7,6 +7,6 @@ const handler = {
 }
 
 module.exports = (config) => {
-  conf = config;
+  conf = config || {};
   return {log: handler.log};
 }

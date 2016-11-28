@@ -3,9 +3,10 @@ const bodyParser = require('body-parser');
 const middleware = require('./middleware/common');
 const logger = require('./middleware/logger')();
 
-module.exports = (repo) => {
+module.exports = (lionRepo, tigerRepo) => {
   const app = express();
-  const lionRoutes = require("./routes/lions")(repo);
+  const lionRoutes = require("./routes/lions")(lionRepo);
+  const tigerRoutes = require("./routes/tigers")(tigerRepo);
 
   app.use(logger.log);
 
@@ -18,6 +19,8 @@ module.exports = (repo) => {
   app.post("/lions", lionRoutes.createLion);
   app.put("/lions/:id", lionRoutes.updateLion);
   app.delete("/lions/:id", lionRoutes.deleteLion);
+
+  app.use(tigerRoutes);
 
   app.use(middleware.clientErr);
   app.use(middleware.serverErr);

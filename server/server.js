@@ -12,7 +12,7 @@
 
 // TODO: make the REST routes to perform CRUD on lions
 
-const app = require("./app")(require("./lionsRepo"));
+const app = require("./app")(require("./lionsRepo"), require("./tigersRepo"));
 const port = process.env.PORT || 4000;
 app.listen(port, () => {
   console.log('on port: ' + port);
