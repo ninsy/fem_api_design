@@ -10,7 +10,7 @@ tigerRouter.get("/", (req, res, next) => {
     .then((tigers) => {
       res.status(200).json({tigers: tigers});
     })
-    .catch(next)
+    .catch(next);
 });
 
 tigerRouter.get("/:id", (req, res, next) => {
@@ -18,31 +18,30 @@ tigerRouter.get("/:id", (req, res, next) => {
     .then((tigers) => {
       res.status(200).json({tigers: tigers});
     })
-    .catch(next)
+    .catch(next);
 });
 
 tigerRouter.post("/", (req, res, next) => {
-  tigerRepo.create()
+  tigerRepo.create({body: req.body})
     .then((tigers) => {
       res.status(200).json({tigers: tigers});
     })
-    .catch(next)
+    .catch(next);
 });
 
 tigerRouter.put("/:id", (req, res, next) => {
-  tigerRepo.update()
+  tigerRepo.update({body: req.body})
     .then((tigers) => {
       res.status(200).json({tigers: tigers});
     })
+    .catch(next);
 });
-.catch(next)
-
 tigerRouter.delete("/:id", (req, res, next) => {
   tigerRepo.delete()
     .then((tigers) => {
       res.status(200).json({tigers: tigers});
     })
-    .catch(next)
+    .catch(next);
 });
 
 module.exports = (repo) => {

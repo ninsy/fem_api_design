@@ -1,4 +1,5 @@
 const tigers = [];
+const possibleParams = ['name', 'age', 'pride', 'gender'];
 
 let helpers = {
   entityClosure: null,
@@ -19,6 +20,16 @@ let helpers = {
       }
       return obj;
     }
+  },
+  bodyRequestParamFilter: (bodyObj) => {
+
+
+
+    return Object.keys(bodyObj).filter((field) => {return possibleParams.indexOf(field) > -1;
+    })
+    .map((matching) => {
+      return bodyObj[matching];
+    }
   }
 }
 
@@ -27,24 +38,24 @@ exports.prepareEntity = (id) => {
 }
 
 exports.list = () => {
-  return new Promise((resolve, reject) => {
-
-  });
+  return Promise.resolve(tigers);
 }
 
 exports.single = () => {
   return new Promise((resolve, reject) => {
-
+      let retVal = helpers.entityClosure();
+      retVal ? resolve(retVal) : reject({})
   });
 }
 
-exports.create = () => {
+exports.create = ({body}) => {
   return new Promise((resolve, reject) => {
 
+    let retVal = helpers.entityClosure();
   });
 }
 
-exports.update = () => {
+exports.update = ({body}) => {
   return new Promise((resolve, reject) => {
 
 }
