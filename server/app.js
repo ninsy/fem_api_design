@@ -20,7 +20,7 @@ module.exports = (lionRepo, tigerRepo) => {
   app.put("/lions/:id", lionRoutes.updateLion);
   app.delete("/lions/:id", lionRoutes.deleteLion);
 
-  app.use(tigerRoutes);
+  app.use('/tigers',tigerRoutes);
 
   app.use(middleware.clientErr);
   app.use(middleware.serverErr);

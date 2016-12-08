@@ -2,7 +2,13 @@ let tigerRouter = require("express").Router();
 let tigerRepo;
 
 tigerRouter.param("id", (req, res, next, id) => {
-  tigerRepo.prepareEntity(id);
+  let tmp = tigerRepo.prepareEntity(id);
+  if(tmp) {
+    req.body.tigerInfo = tmp;
+    next();
+  } else {
+    res.status(400).json({message: `Tiger with id ${id} wasn't found.`});
+  }
 })
 
 tigerRouter.get("/", (req, res, next) => {
@@ -14,7 +20,7 @@ tigerRouter.get("/", (req, res, next) => {
 });
 
 tigerRouter.get("/:id", (req, res, next) => {
-  tigerRepo.single()
+  tigerRepo.single({body: req.body})
     .then((tigers) => {
       res.status(200).json({tigers: tigers});
     })
@@ -37,7 +43,7 @@ tigerRouter.put("/:id", (req, res, next) => {
     .catch(next);
 });
 tigerRouter.delete("/:id", (req, res, next) => {
-  tigerRepo.delete()
+  tigerRepo.delete({body: req.body})
     .then((tigers) => {
       res.status(200).json({tigers: tigers});
     })
@@ -45,6 +51,6 @@ tigerRouter.delete("/:id", (req, res, next) => {
 });
 
 module.exports = (repo) => {
-  tigersRepo = repo;
+  tigerRepo = repo;
   return tigerRouter;
 }

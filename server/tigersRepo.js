@@ -1,68 +1,66 @@
 const tigers = [];
 const possibleParams = ['name', 'age', 'pride', 'gender'];
+let id = 0;
 
 let helpers = {
-  entityClosure: null,
-  entity: (id) => {
-    let tmp = tigers[id] || null;
-    return function ent(...fields) {
-      let obj = {};
-      let propIndex;
-
-      if(!fields.length) return tmp;
-
-      for(let i = 0; i < fields.length; i++) {
-        if((propIndex = Object.keys(tmp).indexOf(fields[i])) > -1) {
-          let copiedKey = Object.keys(tmp)[propIndex];
-          let copiedVal = tmp[copiedKey];
-          obj = Object.assign(obj, {copiedKey: copiedVal});
-        }
+  getEntity: (id) => {
+    let idx;
+    let sought =  tigers.find( (tiger, index) =>{
+      if(parseInt(id) === tiger.id ) {
+        idx = index;
+        return tiger;
       }
-      return obj;
+    });
+    return sought ? { tiger: sought, index: idx} : null;
     }
-  },
-  bodyRequestParamFilter: (bodyObj) => {
-
-
-
-    return Object.keys(bodyObj).filter((field) => {return possibleParams.indexOf(field) > -1;
-    })
-    .map((matching) => {
-      return bodyObj[matching];
-    }
-  }
 }
 
+
 exports.prepareEntity = (id) => {
-  helpers.entityClosure = helpers.entity(id);
+  return helpers.getEntity(id);
 }
 
 exports.list = () => {
   return Promise.resolve(tigers);
 }
 
-exports.single = () => {
-  return new Promise((resolve, reject) => {
-      let retVal = helpers.entityClosure();
-      retVal ? resolve(retVal) : reject({})
-  });
+exports.single = ({body}) => {
+  return Promise.resolve(body.tigerInfo.tiger);
 }
 
 exports.create = ({body}) => {
   return new Promise((resolve, reject) => {
-
-    let retVal = helpers.entityClosure();
+    let newTiger = {
+      id: id++,
+      name: body.name || null,
+      age: body.age || null,
+      pride: body.pride || null,
+      gender: body.gender || null
+    };
+    tigers.push(newTiger);
+    resolve(newTiger);
   });
 }
 
 exports.update = ({body}) => {
   return new Promise((resolve, reject) => {
+    let tiger = body.tigerInfo.tiger;
 
-}
-});
+    tiger.name = body.name || null;
+    tiger.age = body.age || null;
+    tiger.pride = body.pride || null;
+    tiger.gender = body.gender || null;
 
-exports.delete = () => {
-  return new Promise((resolve, reject) => {
-
+    tigers[body.tigerInfo.index] = tiger;
+    resolve(tiger);
   });
+};
+
+exports.delete = ({body}) => {
+  return new Promise((resolve, reject) => {
+    let tiger = body.tigerInfo.tiger;
+    tigers.splice(body.tigerInfo.index,1);
+    resolve(tiger)
+  });
+
 }
