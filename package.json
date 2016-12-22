@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "envs": "export NODE_ROOT=$(pwd)",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -13,5 +14,8 @@
     "express": "^4.13.1",
     "lodash": "^3.10.0",
     "morgan": "^1.6.1"
+  },
+  "devDependencies": {
+    "colors": "^1.1.2"
   }
 }
