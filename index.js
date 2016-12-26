@@ -15,4 +15,4 @@ var logger = require('./server/util/logger');
 app.listen(config.port);
 logger.log('listening on http://localhost:' + config.port);
 
-
+console.log(`Port: ${config.port}`)
