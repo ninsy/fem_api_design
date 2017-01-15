@@ -41,4 +41,8 @@ UserSchema.methods = {
   }
 };
 
+UserSchema.post("validate", function(next) {
+  next();
+})
+
 module.exports = mongoose.model('user', UserSchema);

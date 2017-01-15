@@ -1,16 +1,8 @@
 var router = require('express').Router();
 var logger = require('../../util/logger');
-var controller = require('./categoryController');
+var ctrl = require("./categoryController");
+var routes = require("../../util/genericRouter");
 
-router.param('id', controller.params);
-
-router.route('/')
-  .get(controller.get)
-  .post(controller.post)
-
-router.route('/:id')
-  .get(controller.getOne)
-  .put(controller.put)
-  .delete(controller.delete)
+routes(ctrl, router);
 
 module.exports = router;

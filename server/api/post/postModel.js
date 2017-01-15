@@ -1,21 +1,28 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-var PostSchema = new Schema({
+const PostSchema = new Schema({
   title: {
     type: String,
     required: true,
     unique: true
   },
-
   text: {
     type: String,
+    required: true,
+    max: 500
+  },
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: 'user',
     required: true
   },
-
-  author: {type: Schema.Types.ObjectId, ref: 'user'},
-
-  categories: [{type: Schema.Types.ObjectId, ref: 'category'}]
+  categories: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'category'
+    }
+  ]
 });
 
-module.exports = mongoose.model('post', PostSchema);
+module.exports = mongoose.model("post",PostSchema);
