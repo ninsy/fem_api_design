@@ -1,9 +1,11 @@
 var express = require('express');
 var app = express();
 var api = require('./api/api');
+var config = require("./config/config")
 let errLoggers = require('./util/errorLogger');
 
-// setup the app middlware
+
+require('mongoose').connect(config.db.url);
 require('./middleware/appMiddlware')(app);
 
 // setup the api

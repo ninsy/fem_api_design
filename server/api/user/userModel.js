@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema({
+var UserSchema = new Schema({
   username: {
     type: String,
     required: true,
@@ -9,9 +9,8 @@ const UserSchema = new Schema({
   }
 });
 
-UserSchema.post("save", function(next) {
+UserSchema.post("save", function() {
   var user = this;
-  next();
 })
 
 UserSchema.pre("validate", function(next) {

@@ -1,13 +1,13 @@
-var User = require('./userModel');
+var Category = require('./categoryModel');
 var _ = require('lodash');
 
 exports.params = function(req, res, next, id) {
-  User.findById(id)
-    .then(function(user) {
-      if (!user) {
-        next(new Error('No user with that id'));
+  Category.findById(id)
+    .then(function(category) {
+      if (!category) {
+        next(new Error('No category with that id'));
       } else {
-        req.user = user;
+        req.category = category;
         next();
       }
     }, function(err) {
@@ -16,27 +16,27 @@ exports.params = function(req, res, next, id) {
 };
 
 exports.get = function(req, res, next) {
-  User.find({})
-    .then(function(users){
-      res.json(users);
+  Category.find({})
+    .then(function(categories){
+      res.json(categories);
     }, function(err){
       next(err);
     });
 };
 
 exports.getOne = function(req, res, next) {
-  var user = req.user;
-  res.json(user);
+  var category = req.category;
+  res.json(category);
 };
 
 exports.put = function(req, res, next) {
-  var user = req.user;
+  var category = req.category;
 
   var update = req.body;
 
-  _.merge(user, update);
+  _.merge(category, update);
 
-  user.save(function(err, saved) {
+  category.save(function(err, saved) {
     if (err) {
       next(err);
     } else {
@@ -46,18 +46,18 @@ exports.put = function(req, res, next) {
 };
 
 exports.post = function(req, res, next) {
-  var newUser = req.body;
+  var newcategory = req.body;
 
-  User.create(newUser)
-    .then(function(user) {
-      res.json(user);
+  Category.create(newcategory)
+    .then(function(category) {
+      res.json(category);
     }, function(err) {
       next(err);
     });
 };
 
 exports.delete = function(req, res, next) {
-  req.user.remove(function(err, removed) {
+  req.category.remove(function(err, removed) {
     if (err) {
       next(err);
     } else {

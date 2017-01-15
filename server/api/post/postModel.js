@@ -14,7 +14,7 @@ const PostSchema = new Schema({
   },
   author: {
     type: Schema.Types.ObjectId,
-    ref: 'user'
+    ref: 'user',
     required: true
   },
   categories: [

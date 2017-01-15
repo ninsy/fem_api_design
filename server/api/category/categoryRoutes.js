@@ -1,12 +1,8 @@
 var router = require('express').Router();
 var logger = require('../../util/logger');
+var ctrl = require("./categoryController");
+var routes = require("../../util/genericRouter");
 
-// setup boilerplate route jsut to satisfy a request
-// for building
-router.route('/')
-  .get(function(req, res){
-    logger.log('Hey from user!!');
-    res.send({ok: true});
-  });
+routes(ctrl, router);
 
 module.exports = router;
